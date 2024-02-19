@@ -1,5 +1,5 @@
 import { and, eq } from 'drizzle-orm';
-import { CreateRoomDto } from './dto/rooms.dto';
+import { TCreateRoomDto } from './dto/rooms';
 import { Inject, Injectable } from '@nestjs/common';
 import { DATABASE } from '../drizzle/drizzle.module';
 import * as schema from '../../modules/drizzle/schema';
@@ -17,10 +17,8 @@ export class RoomsService {
     return { message: 'Success 🔥', data: rooms };
   }
 
-  async createRoom(createRoomDto: CreateRoomDto) {
-    const newRoom = await this.drizzle
-      .insert(schema.Rooms)
-      .values([createRoomDto]);
+  async createRoom(body: TCreateRoomDto) {
+    const newRoom = await this.drizzle.insert(schema.Rooms).values([body]);
 
     return { message: 'Success 🔥', data: newRoom.fields };
   }
@@ -33,10 +31,10 @@ export class RoomsService {
     return { message: 'Success 🔥', data: room };
   }
 
-  async updateRoom(roomId: number, createRoomDto: CreateRoomDto) {
+  async updateRoom(roomId: number, body: TCreateRoomDto) {
     const updatedRoom = await this.drizzle
       .update(schema.Rooms)
-      .set(createRoomDto)
+      .set(body)
       .where(and(eq(schema.Rooms.id, roomId)));
 
     return { message: 'Success 🔥', data: updatedRoom.fields };

@@ -7,15 +7,15 @@ import {
   Delete,
   Controller,
 } from '@nestjs/common';
+import { TCreateRoomDto } from './dto/rooms';
 import { RoomsService } from './rooms.service';
-import { CreateRoomDto } from './dto/rooms.dto';
 
 @Controller('rooms')
 export class RoomsController {
   constructor(private readonly roomService: RoomsService) {}
 
   @Post()
-  async create(@Body() createRoomDto: CreateRoomDto) {
+  async create(@Body() createRoomDto: TCreateRoomDto) {
     return await this.roomService.createRoom(createRoomDto);
   }
 
@@ -30,7 +30,7 @@ export class RoomsController {
   }
 
   @Put(':id')
-  update(@Param('id') id: number, @Body() createRoomDto: CreateRoomDto) {
+  update(@Param('id') id: number, @Body() createRoomDto: TCreateRoomDto) {
     return this.roomService.updateRoom(id, createRoomDto);
   }
 

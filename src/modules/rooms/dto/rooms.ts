@@ -1,4 +1,4 @@
-export class CreateRoomDto {
+export class TCreateRoomDto {
   id?: number;
   name?: string;
   price?: string;
