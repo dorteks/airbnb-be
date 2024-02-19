@@ -8,6 +8,27 @@
       "when": 1708105117791,
       "tag": "0000_wandering_omega_sentinel",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1708278102001,
+      "tag": "0001_silky_darkstar",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1708331857333,
+      "tag": "0002_dry_ben_parker",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "5",
+      "when": 1708332007711,
+      "tag": "0003_parallel_warpath",
+      "breakpoints": true
     }
   ]
 }
