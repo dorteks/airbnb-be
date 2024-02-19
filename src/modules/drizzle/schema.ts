@@ -34,3 +34,14 @@ export const Auth = airbnbSchema.table('auth', {
   createdAt: timestamp('created_at', { withTimezone: true }).defaultNow(),
   updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow(),
 });
+
+export const Rooms = airbnbSchema.table('rooms', {
+  id: serial('id').primaryKey(),
+  name: varchar('room_name'),
+  price: varchar('room_price'),
+  description: varchar('room_description'),
+  check_in: timestamp('check_in_at', { withTimezone: true }),
+  check_out: timestamp('check-out_at', { withTimezone: true }),
+  createdAt: timestamp('created_at', { withTimezone: true }).defaultNow(),
+  updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow(),
+});
