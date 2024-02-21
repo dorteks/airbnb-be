@@ -5,43 +5,15 @@
     {
       "idx": 0,
       "version": "5",
-      "when": 1708105117791,
-      "tag": "0000_wandering_omega_sentinel",
+      "when": 1708446323564,
+      "tag": "0000_flimsy_crystal",
       "breakpoints": true
     },
     {
       "idx": 1,
       "version": "5",
-      "when": 1708278102001,
-      "tag": "0001_silky_darkstar",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "5",
-      "when": 1708331857333,
-      "tag": "0002_dry_ben_parker",
-      "breakpoints": true
-    },
-    {
-      "idx": 3,
-      "version": "5",
-      "when": 1708332007711,
-      "tag": "0003_parallel_warpath",
-      "breakpoints": true
-    },
-    {
-      "idx": 4,
-      "version": "5",
-      "when": 1708351922118,
-      "tag": "0004_next_ronan",
-      "breakpoints": true
-    },
-    {
-      "idx": 5,
-      "version": "5",
-      "when": 1708367623845,
-      "tag": "0005_opposite_lady_bullseye",
+      "when": 1708505197445,
+      "tag": "0001_funny_magdalene",
       "breakpoints": true
     }
   ]

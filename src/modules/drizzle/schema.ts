@@ -13,6 +13,10 @@ import {
 
 export const airbnbSchema = pgSchema('airbnb-be');
 
+export const RoleMap = ['user', 'admin'] as const;
+export const RoleEnum = pgEnum('role', RoleMap);
+export type TRole = (typeof RoleEnum.enumValues)[number];
+
 export const UserStatusMap = ['not_verified', 'verified'] as const;
 export const UserStatusEnum = pgEnum('user_status', UserStatusMap);
 export type TUserStatus = (typeof UserStatusEnum.enumValues)[number];
@@ -35,6 +39,7 @@ export const User = airbnbSchema.table(
     lastName: varchar('last_name'),
     email: varchar('email', { length: 64 }).unique().notNull(),
     phone: varchar('phone').unique().notNull(),
+    role: RoleEnum('role').default('user').notNull(),
     status: UserStatusEnum('status').default('not_verified'),
     createdAt: timestamp('created_at', { withTimezone: true }).defaultNow(),
     updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow(),
@@ -69,6 +74,8 @@ export const VerificationStatus = airbnbSchema.table('verification_status', {
 export const Auth = airbnbSchema.table('auth', {
   id: serial('id').primaryKey(),
   password: text('password'),
+  refreshToken: text('refresh_token'),
+  accessToken: varchar('access_token'),
   lastPing: timestamp('last_ping', { withTimezone: true }).defaultNow(),
   userId: integer('user_id')
     .notNull()

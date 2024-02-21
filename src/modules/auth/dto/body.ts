@@ -59,4 +59,7 @@ export class TCreateAccountBody {
   @MinLength(APP.PASSWORD_MIN_LENGTH)
   @MaxLength(APP.PASSWORD_MAX_LENGTH)
   password: string;
+
+  @IsString()
+  role: string;
 }

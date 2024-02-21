@@ -1,22 +1,25 @@
 import {
   Auth,
   User,
-  TUser,
   VerificationCode,
   VerificationStatus,
 } from '../drizzle/schema';
+import { JwtService } from '@nestjs/jwt';
 import { RESPONSE } from 'src/core/constants';
 import { and, eq, gt, or } from 'drizzle-orm';
 import { TDrizzle } from '../rooms/rooms.service';
 import { quickOTP } from 'src/core/utils/strings';
+import { MailService } from '../mail/mail.service';
 import { DATABASE } from '../drizzle/drizzle.module';
+import { PasswordService } from 'src/core/services/password';
 import { BadRequestException, Inject, Injectable } from '@nestjs/common';
 import { TCreateAccountBody, TLoginBody, TVerifyEmailBody } from './dto/body';
-import { PasswordService } from 'src/core/services/password';
 
 @Injectable()
 export class AuthService {
   constructor(
+    private readonly mail: MailService,
+    private readonly jwtService: JwtService,
     private readonly password: PasswordService,
     @Inject(DATABASE) private readonly drizzle: TDrizzle,
   ) {}
@@ -33,6 +36,9 @@ export class AuthService {
       throw new BadRequestException(RESPONSE.PHONE_EXISTS);
 
     const { code } = await this.CreateAccount(body);
+
+    // await this.mail.sendMail(code);
+
     return `${code} to be sent via mail`;
   }
 
@@ -58,17 +64,19 @@ export class AuthService {
       with: { auth: true },
     });
 
-    // const validPassword = await this.password.verify(
-    //   body.password,
-    //   user?.auth.password,
-    // );
-
-    const validPassword = true;
+    const validPassword = await this.password.verify(
+      body.password,
+      user?.auth.password,
+    );
 
     if (!user || !validPassword)
       throw new BadRequestException(RESPONSE.INVALID_CREDENTIALS);
 
-    return 'Login successful';
+    const payload = { sub: user.id, email: user.email, role: user.role };
+
+    return {
+      access_token: await this.jwtService.signAsync(payload),
+    };
   }
 
   private async CheckExistingEmailAndPhone(email: string, phone?: string) {
@@ -124,8 +132,7 @@ export class AuthService {
     await this.drizzle.insert(VerificationStatus).values({ userId: user.id });
     await this.drizzle.insert(Auth).values({
       userId: user.id,
-      // password: await this.password.hash(body.password),
-      password: body.password,
+      password: await this.password.hash(body.password),
     });
 
     const { code, expiresAt } = quickOTP();
